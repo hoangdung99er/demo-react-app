@@ -4,7 +4,7 @@ import TaskFormAdd from './components/TaskFormAdd';
 import TaskList from './components/TaskList';
 import SearchnSort from './components/SearchnSort';
 import AddEvent from './components/AddEvent';
-import { findIndex , filter } from 'lodash';
+import _ from 'lodash';
 
 
 class App extends Component {
@@ -144,7 +144,7 @@ class App extends Component {
     console.log(id);
     const { tasks } = this.state;
     // var index = this.findIndex(id);
-    var index = findIndex(tasks , (task) => {
+    var index = _.findIndex(tasks , (task) => {
       return task.id === id
     });
     if(index !== -1){
@@ -213,7 +213,7 @@ class App extends Component {
       });
     }
     // !== null , !== undifined , !== 0
-    tasks = tasks.filter((task) => {
+    tasks = tasks.filter(task => {
       if(filter.status === -1){
         return task;
       }else{
@@ -230,7 +230,7 @@ class App extends Component {
       //   }
       // });
       // console.log(tasks);
-      tasks = filter(tasks , (task) => {
+      tasks = _.filter(tasks , (task) => {
         return task.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1
       })   
     }
