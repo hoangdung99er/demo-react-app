@@ -2,7 +2,7 @@
   "name": "pretest",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://hoangdung99er.github.io/pretest",
+  "homepage": "https://hoangdung99er.github.io/pretest/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
