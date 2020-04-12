@@ -2,7 +2,7 @@
   "name": "test5-redux",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://hoangdung99er.github.io/demo-react-project/",
+  "homepage": "https://hoangdung99er.github.io/demo-react-app/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
