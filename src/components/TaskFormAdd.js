@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from './../actions/index';
 
 class TaskFormAdd extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      id : '',// do taskEdit có thêm thuộc tính ID
+      id : '',
       name : '',
       status : true,
     }
@@ -19,10 +21,11 @@ class TaskFormAdd extends Component {
         name : this.props.taskEdit.name,
         status : this.props.taskEdit.status
       });
-    }
+    };
   }
 
   UNSAFE_componentWillReceiveProps(nextProps){
+    
     if(nextProps && nextProps.taskEdit)   
     {
       this.setState({
@@ -30,6 +33,7 @@ class TaskFormAdd extends Component {
         name : nextProps.taskEdit.name,
         status : nextProps.taskEdit.status
       });
+      
     }else if(nextProps.taskEdit === null)
     {     
       this.setState({
@@ -37,7 +41,7 @@ class TaskFormAdd extends Component {
         name : '',
         status : true,
       });
-    }    
+    };
   }
   
   onHandleChange = (e) => {
@@ -52,14 +56,15 @@ class TaskFormAdd extends Component {
     });
   }
 
-  onHandleClose = () => {
-    this.props.isCloseForm();
+  onCloseForm = () => {
+    this.props.onCloseForm();
   } 
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.onAddObj(this.state);
-    this.props.onClose()
+    // this.props.onAddObj(this.state);
+    this.props.onAddTask(this.state);
+    this.props.onCloseForm();
   }
 
   onClear = () => {
@@ -67,20 +72,21 @@ class TaskFormAdd extends Component {
       name : '',
       status : true,
     });
+    
   }
 
     render() {
-
+        
+        if(!this.props.isActive) return '';
         // do thêm không có id , sửa có id nên sử dụng id để so sánh
-        var { id } = this.state;
         return (
             <div className="panel panel-warning">
               <div className="panel-heading">
                 <h3 className="panel-title">              
-                  { id !== '' ? 'Cập nhật công việc' : 'Thêm công việc' } 
+                  { !this.state.id ? 'Thêm công việc' : 'Cập nhật công việc' } 
                   <span 
                     className="fal fa-times-circle text-right" 
-                    onClick = { this.onHandleClose }
+                    onClick = { this.onCloseForm }
                   >
 
                   </span>
@@ -114,7 +120,7 @@ class TaskFormAdd extends Component {
                   </div>
                     <button type="submit" className="btn btn-primary"> 
                       <span className="fa fa-plus mr-5"></span>
-                      { id !== '' ? 'Sửa' : 'Thêm' } 
+                      { !this.state.id ? 'Thêm' : 'Sửa' } 
                     </button>&nbsp;
                     <button type="reset" className="btn btn-danger" onClick = { this.onClear }>
                       <span className="fa fa-window-close mr-5"></span>
@@ -127,4 +133,25 @@ class TaskFormAdd extends Component {
     }
 }
 
-export default TaskFormAdd;
+const mapStateToProps =  (state) => {
+  return {
+    isActive : state.isActive,
+    taskEdit : state.editTask,
+  }
+}
+
+const mapDispatchToProps = (dispatch , props) => {
+  return {
+    onAddTask : (task) => {
+      dispatch(actions.addTask(task));
+    },
+    onCloseForm : () => {
+      dispatch(actions.closeForm())
+    },
+    onClearTask : (task) => {
+      dispatch(actions.editTask(task))
+    }
+  }
+}
+
+export default connect(mapStateToProps , mapDispatchToProps)(TaskFormAdd);

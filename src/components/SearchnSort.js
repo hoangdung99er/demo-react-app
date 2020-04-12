@@ -8,13 +8,9 @@ class SearchnSort extends Component {
 
         return (
             <div className = "_SeachnSort">
-                <Search onSearch = { this.props.onSearch }/>
+                <Search />
                 
-                <Sort 
-                    onSort = { this.props.onSort }
-                    sortBy = { this.props.sortBy }
-                    sortValue = { this.props.sortValue }
-                />
+                <Sort />
             </div>
         );
     }

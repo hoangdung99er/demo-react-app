@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
+import * as actions from './../actions/index';
 
 class Sort extends Component {
 
@@ -8,10 +9,16 @@ class Sort extends Component {
     // }
 
     onClick = (sortBy , sortValue) => {
-        this.props.onSort(sortBy , sortValue);     
+        // this.props.onSort(sortBy , sortValue);
+        this.props.onSort({
+            sortName : sortBy,
+            sortValue : sortValue
+        });
     }
 
     render() {
+
+        var { sort } = this.props;
         
         return (
             <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -34,9 +41,10 @@ class Sort extends Component {
                       <li onClick = { () => this.onClick('name' , 1) }>
                         <a 
                             role="button"
+                            href = "#sortAZ"
                             className = { 
-                                (this.props.sortBy === 'name' 
-                                && this.props.sortValue === 1 
+                                (sort.sortName === 'name' 
+                                && sort.sortValue === 1 
                                 ? 'sort_selected' : '') }                  
                         >
                             <span className="fa fa-sort-alpha-asc pr-5">
@@ -47,9 +55,10 @@ class Sort extends Component {
                       <li onClick = { () => this.onClick('name' , -1) }>
                         <a 
                             role="button" 
+                            href = "#sortZA"
                             className = { 
-                                (this.props.sortBy === 'name' 
-                                && this.props.sortValue === -1
+                                (sort.sortName === 'name' 
+                                && sort.sortValue === -1
                                 ? 'sort_selected' : '') }
                         >
                           <span className="fa fa-sort-asc pr-5">Tên Z-A</span>
@@ -61,9 +70,10 @@ class Sort extends Component {
                       <li onClick = { () => this.onClick('status' , 1) }>
                         <a 
                             role="button"
+                            href = "#sortTrue"
                             className = { 
-                                (this.props.sortBy === 'status' 
-                                && this.props.sortValue === 1
+                                (sort.sortName === 'status' 
+                                && sort.sortValue === 1
                                 ? 'sort_selected' : '') }  
                         >
                             Trạng Thái Kích Hoạt
@@ -72,9 +82,10 @@ class Sort extends Component {
                       <li onClick = { () => this.onClick('status' , -1) }>
                         <a 
                             role="button"
+                            href = "#sortFalse"
                             className = { 
-                                (this.props.sortBy === 'status' 
-                                && this.props.sortValue === -1
+                                (sort.sortName === 'status' 
+                                && sort.sortValue === -1
                                 ? 'sort_selected' : '') }                      
                         >
                             Trạng Thái Ẩn
@@ -87,4 +98,18 @@ class Sort extends Component {
     }
 }
 
-export default Sort;
+const mapStateToProps = (state) => {
+    return {
+        sort : state.sortTask
+    }
+}
+
+const mapDispatchToProps = (dispatch , state) => {
+    return {
+        onSort : (sort) => {
+            dispatch(actions.sortTask(sort))
+        }
+    }
+}
+
+export default connect(mapStateToProps , mapDispatchToProps)(Sort);
